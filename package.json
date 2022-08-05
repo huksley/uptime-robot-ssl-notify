@@ -1,0 +1,12 @@
+{
+  "name": "uptime-robot-ssl-monitor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "notify.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^3.21.0"
+  }
+}

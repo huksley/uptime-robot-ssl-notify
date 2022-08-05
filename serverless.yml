@@ -1,0 +1,30 @@
+service: uptime-robot-ssl-notify
+configValidationMode: warn
+frameworkVersion: "3"
+
+provider:
+  lambdaHashingVersion: 20200924
+  name: aws
+  runtime: nodejs16.x
+  region: eu-west-1
+  logRetentionInDays: 30
+  apiGateway:
+    shouldStartNameWithService: true
+  # optional, in MB, default is 1024, min is 128
+  memorySize: 128
+  # If lambda have SQS as source, SQS visibility timeout must be at least x3 of function timeout
+  timeout: 10
+  # optional, default is true
+  versionFunctions: false
+
+package:
+  patterns:
+    - "!**"
+    - "notify.js"
+
+functions:
+  ecs:
+    handler: notify.handler
+    url: true
+    reservedConcurrency: 5
+
