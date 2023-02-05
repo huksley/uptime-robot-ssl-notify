@@ -5,7 +5,7 @@
   "main": "notify.js",
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "serverless": "^3.21.0"
   }

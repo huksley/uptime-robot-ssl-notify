@@ -230,9 +230,7 @@ const handler = async (event, context) => {
           ],
           text: "UptimeRobot SSL check: " + text.join("\n"),
         }
-      : {
-          text: "Unhandled message: " + JSON.stringify(event, null, 2) + ", logs: " + logLink,
-        };
+      : undefined;
 
   const url = await getSlackWebhook(apiKey);
   if (!url) {
@@ -241,13 +239,16 @@ const handler = async (event, context) => {
   }
 
   try {
-    logger.info("Sending to", url, message);
-    const res = await request(url, {
-      method: "POST",
-      body: message,
-    });
+    if (message) {
+      logger.info("Sending to", url, message);
+      const res = await request(url, {
+        method: "POST",
+        body: message,
+      });
 
-    logger.info("Got response", res.statusCode, "body", res.headers["content-type"], res.body);
+      logger.info("Got response", res.statusCode, "body", res.headers["content-type"], res.body);
+    }
+    
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
@@ -263,7 +264,7 @@ if (require.main === module) {
   process.env.AWS_REGION = "eu-west-1";
   handler(
     {
-      query: {
+      queryStringParameters: {
         apiKey: process.env.UPTIME_ROBOT_API_KEY,
       },
     },
